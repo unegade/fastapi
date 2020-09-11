@@ -12,6 +12,7 @@ def get_swagger_ui_html(
     swagger_js_url: str = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@3/swagger-ui-bundle.js",
     swagger_css_url: str = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@3/swagger-ui.css",
     swagger_favicon_url: str = "https://fastapi.tiangolo.com/img/favicon.png",
+    show_operation_id: Optional[bool] = None,
     oauth2_redirect_url: Optional[str] = None,
     init_oauth: Optional[dict] = None,
 ) -> HTMLResponse:
@@ -44,8 +45,13 @@ def get_swagger_ui_html(
         SwaggerUIBundle.SwaggerUIStandalonePreset
         ],
         layout: "BaseLayout",
-        deepLinking: true
-    })"""
+        deepLinking: true,
+        """
+
+    if show_operation_id:
+        html += "displayOperationId: true"
+
+    html += "})"
 
     if init_oauth:
         html += f"""

@@ -41,6 +41,7 @@ class FastAPI(Starlette):
         redoc_url: Optional[str] = "/redoc",
         swagger_ui_oauth2_redirect_url: Optional[str] = "/docs/oauth2-redirect",
         swagger_ui_init_oauth: Optional[dict] = None,
+        swagger_ui_show_operation_id: Optional[bool] = False,
         **extra: Dict[str, Any],
     ) -> None:
         self.default_response_class = default_response_class
@@ -63,6 +64,7 @@ class FastAPI(Starlette):
         self.redoc_url = redoc_url
         self.swagger_ui_oauth2_redirect_url = swagger_ui_oauth2_redirect_url
         self.swagger_ui_init_oauth = swagger_ui_init_oauth
+        self.swagger_ui_show_operation_id = swagger_ui_show_operation_id
         self.extra = extra
         self.dependency_overrides: Dict[Callable, Callable] = {}
 
@@ -105,6 +107,7 @@ class FastAPI(Starlette):
                     title=self.title + " - Swagger UI",
                     oauth2_redirect_url=self.swagger_ui_oauth2_redirect_url,
                     init_oauth=self.swagger_ui_init_oauth,
+                    show_operation_id=self.swagger_ui_show_operation_id
                 )
 
             self.add_route(self.docs_url, swagger_ui_html, include_in_schema=False)
